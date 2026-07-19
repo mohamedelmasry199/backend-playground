@@ -11,16 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('passkeys', function (Blueprint $table) {
-            $table->id();
-            $table->foreignUuid('user_id')->constrained()->cascadeOnDelete();
+        Schema::create('travels', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->boolean('is_public')->default(false);
+            $table->string('slug')->unique();
             $table->string('name');
-            $table->string('credential_id')->unique();
-            $table->json('credential');
-            $table->timestamp('last_used_at')->nullable();
+            $table->text('description');
+            $table->unsignedInteger('number_of_days');
             $table->timestamps();
-
-            $table->index('user_id');
         });
     }
 
@@ -29,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('passkeys');
+        Schema::dropIfExists('travel');
     }
 };
